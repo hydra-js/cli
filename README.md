@@ -1,13 +1,35 @@
-# Hydra-JS CLI
+# @hydra-js/cli
 
-## Development
+Command-line Toolkit for Hydra.js
 
-### Prerequisites
+## Getting started
+
+### Usage
+
+**Install**
+```bash
+npm i -g @hydra-js/cli
+```
+
+**Create a new App**
+```bash
+hydra create [-f|--force] <namespace>
+```
+
+**Run**
+```bash
+cd <namespace>
+hydra serve
+```
+
+### Development Setup
+
+**Prerequisites**
 
 - Node.js (v14 or later)
 - npm (v7 or later)
 
-### Setup
+### Setting up locally
 
 ```bash
 git clone git@github.com:hydra-js/cli.git hydra-cli
@@ -17,10 +39,10 @@ npm install
 
 ### Running locally
 
-To run the CLI tool locally without installing it globally, use:
+To run the CLI tool locally without installing it, use:
 
 ```bash
-node index.js init [appName]
+node index.js create [-f|--force] <namespace>
 ```
 
 ### Running locally with `npm link`
@@ -39,7 +61,7 @@ npm link
 2. Now you can run the `hydra` command from anywhere on your system:
 
 ```bash
-hydra init [appName]
+hydra create [-f|--force] <namespace>
 ```
 
 This allows you to test changes to the CLI tool without needing to reinstall it each time you make modifications.

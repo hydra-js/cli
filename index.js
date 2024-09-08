@@ -16,16 +16,16 @@ const subdirectory = 'packages/server-nodejs';
 program.name('hydra').description(pkg.description).version(pkg.version);
 
 program
-  .command('init [appName]')
+  .command('create [namespace]')
   .description(
     'Initialize a Hydra App'
   )
-  .action(async (appName = 'my-hydra-app') => {
-    const tempRepoPath = path.join(process.cwd(), appName, '__tmp');
-    const appPath = path.join(process.cwd(), appName);
+  .action(async (namespace = 'my-hydra-app') => {
+    const tempRepoPath = path.join(process.cwd(), namespace, '__tmp');
+    const appPath = path.join(process.cwd(), namespace);
 
     if (fs.existsSync(appPath)) {
-      console.error(`Error: Directory ${appName} already exists.`);
+      console.error(`Error: Directory ${namespace} already exists.`);
       process.exit(1);
     }
 
@@ -42,7 +42,7 @@ program
         );
       }
 
-      console.log(`Copying ${subdirectory} to ${appName}...`);
+      console.log(`Copying ${subdirectory} to ${namespace}...`);
       await fs.copy(sourcePath, appPath);
       console.log('Subdirectory copied successfully.');
 
@@ -52,7 +52,7 @@ program
       await fs.remove(tempRepoPath);
       console.log('Cleanup completed.');
 
-      console.log(`Project ${appName} generated successfully.`);
+      console.log(`Project ${namespace} generated successfully.`);
     } catch (err) {
       console.error('Failed to generate project:', err);
       await fs.remove(tempRepoPath);
