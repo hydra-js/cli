@@ -10,7 +10,7 @@ const git = simpleGit();
 
 const pkg = require('./package.json');
 
-const templateRepoUrl = 'https://github.com/hydra-js/monorepo';
+const templateRepoUrl = 'https://github.com/hydra-js/hello-world.git';
 const subdirectory = 'packages/server-nodejs';
 
 program.name('hydra').description(pkg.description).version(pkg.version);
@@ -21,7 +21,10 @@ program
     'Initialize a Hydra App'
   )
   .action(async (namespace = 'my-hydra-app') => {
-    const tempRepoPath = path.join(process.cwd(), namespace, '__tmp');
+    console.log('Creating a new Hydra app...');
+
+    // Resolve paths
+    const tempRepoPath = path.join(process.cwd(), namespace, '__hydra');
     const appPath = path.join(process.cwd(), namespace);
 
     if (fs.existsSync(appPath)) {
@@ -34,7 +37,7 @@ program
       await git.clone(templateRepoUrl, tempRepoPath);
       console.log('Repository cloned successfully.');
 
-      const sourcePath = path.join(tempRepoPath, subdirectory);
+      const sourcePath = tempRepoPath;
 
       if (!fs.existsSync(sourcePath)) {
         throw new Error(
@@ -44,7 +47,7 @@ program
 
       console.log(`Copying ${subdirectory} to ${namespace}...`);
       await fs.copy(sourcePath, appPath);
-      console.log('Subdirectory copied successfully.');
+      console.log('File structure created successfully.');
 
       // @TODO: Make necessory changes
 
@@ -53,6 +56,7 @@ program
       console.log('Cleanup completed.');
 
       console.log(`Project ${namespace} generated successfully.`);
+
     } catch (err) {
       console.error('Failed to generate project:', err);
       await fs.remove(tempRepoPath);
