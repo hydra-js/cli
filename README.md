@@ -1,5 +1,7 @@
 # @hydra-js/cli
 
+[![npm version](https://img.shields.io/npm/v/@hydra-js/cli.svg)](https://www.npmjs.com/@hydra-js/cli)
+
 Command-line Toolkit for Hydra.js
 
 ## Getting started
