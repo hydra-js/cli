@@ -1,6 +1,6 @@
 {
   "name": "@hydra-js/cli",
-  "version": "1.0.0-alpha.1",
+  "version": "1.0.0-alpha.2",
   "description": "Hydra-JS Command-line Toolkit",
   "bin": {
     "hydra": "./index.js"
