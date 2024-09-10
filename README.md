@@ -14,14 +14,26 @@ npm i -g @hydra-js/cli
 ```
 
 **Create a new App**
+
+*Method 1*
 ```bash
 hydra create [-f|--force] <namespace>
+```
+*Method 2*
+```bash
+npx @hydra-js/cli create [-f|--force] <namespace>
 ```
 
 **Run**
 ```bash
 cd <namespace>
 hydra serve
+hydra serve --port 3000
+```
+
+*Specify npm script to run*
+```bash
+hydra serve --script dev // hydra serve -s dev
 ```
 
 ### Development Setup
@@ -50,7 +62,6 @@ node index.js create [-f|--force] <namespace>
 ### Running locally with `npm link`
 
 > This section provides instructions on how to use `npm link` for local development, enabling you to test the CLI tool as if it were installed globally.
-
 
 To link the CLI tool locally for development and testing, use `npm link`:
 
