@@ -32,7 +32,12 @@ hydra serve
 
 *Specify npm script to run*
 ```bash
-hydra serve --script dev // hydra serve -s dev
+hydra serve [--script|-s] dev
+```
+
+*Start the server in development mode*
+```bash
+hydra serve [--dev|-d]
 ```
 
 ### Development Setup
