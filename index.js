@@ -1,5 +1,7 @@
 #!/usr/bin/env node
 
+'use strict';
+
 var Command = require('commander').Command;
 var simpleGit = require('simple-git');
 var path = require('path');
@@ -19,7 +21,7 @@ program
   .command('create [namespace]')
   .description('Initialize a Hydra App')
   .option('-f, --force', 'Force creation even if directory exists')
-  .action(function (namespace) {
+  .action(function (namespace, options) {
     namespace = namespace || 'my-hydra-app';
     console.log('Creating a new Hydra app...');
 
@@ -58,7 +60,14 @@ program
       .then(function () {
         console.log('File structure created successfully.');
 
-        // @TODO: Make necessary changes
+        /**
+         * @TODO: Make necessary changes
+         * - Improve logs
+         * -- Show progress
+         * -- Show next steps
+         * - Create .env file
+         * - Install dependencies
+        */
 
         console.log('Cleaning up temporary files...');
         return fs.remove(tempRepoPath);
@@ -78,6 +87,7 @@ program
   .command('serve')
   .description('Start the Hydra server')
   .option('-s, --script <script>', 'Specify the npm script to run', 'start')
+  .option('-d, --dev', 'Run in development mode')
   .action(function (options) {
     // Validate if the current directory is a Hydra app
     if (!fs.existsSync('package.json')) {
@@ -86,36 +96,39 @@ program
     }
 
     // Read package.json to check for necessary scripts and dependencies
-    const packageJson = JSON.parse(fs.readFileSync('package.json', 'utf8'));
+    var packageJson = JSON.parse(fs.readFileSync('package.json', 'utf8'));
+
+    // Determine which script to run
+    var scriptToRun = options.dev ? 'dev' : options.script;
 
     // Check if the specified script exists
-    if (!packageJson.scripts || !packageJson.scripts[options.script]) {
-      console.error(`Error: Script '${options.script}' not found in package.json`);
+    if (!packageJson.scripts || !packageJson.scripts[scriptToRun]) {
+      console.error('Error: Script \'' + scriptToRun + '\' not found in package.json');
       process.exit(1);
     }
 
     // Check for essential dependencies
-    const requiredDeps = ['@hydra-js/core', 'react', 'react-dom'];
-    const missingDeps = requiredDeps.filter(dep => 
-      !packageJson.dependencies || !packageJson.dependencies[dep]
-    );
+    var requiredDeps = ['@hydra-js/core'];
+    var missingDeps = requiredDeps.filter(function(dep) {
+      return !packageJson.dependencies || !packageJson.dependencies[dep];
+    });
 
     if (missingDeps.length > 0) {
-      console.error(`Error: Missing essential dependencies: ${missingDeps.join(', ')}`);
+      console.error('Error: Missing essential dependencies: ' + missingDeps.join(', '));
       process.exit(1);
     }
 
     console.log('Application integrity check passed.');
-    console.log(`Running npm script: ${options.script}`);
+    console.log('Running npm script: ' + scriptToRun);
 
-    const npm = process.platform === 'win32' ? 'npm.cmd' : 'npm';
-    const child = spawn(npm, ['run', options.script], { stdio: 'inherit' });
+    var npm = process.platform === 'win32' ? 'npm.cmd' : 'npm';
+    var child = spawn(npm, ['run', scriptToRun], { stdio: 'inherit' });
 
-    child.on('close', (code) => {
-      console.log(`npm script exited with code ${code}`);
+    child.on('close', function(code) {
+      console.log('npm script exited with code ' + code);
     });
 
-    child.on('error', (err) => {
+    child.on('error', function(err) {
       console.error('Failed to start npm script:', err);
       process.exit(1);
     });
