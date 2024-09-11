@@ -28,7 +28,6 @@ npx @hydra-js/cli create [-f|--force] <namespace>
 ```bash
 cd <namespace>
 hydra serve
-hydra serve --port 3000
 ```
 
 *Specify npm script to run*
