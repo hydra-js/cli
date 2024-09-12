@@ -32,12 +32,12 @@ hydra serve
 
 *Specify npm script to run*
 ```bash
-hydra serve [--script|-s] dev
+hydra serve [-s|--script] dev
 ```
 
 *Start the server in development mode*
 ```bash
-hydra serve [--dev|-d]
+hydra serve [-d|--dev]
 ```
 
 ### Development Setup
@@ -93,7 +93,7 @@ To publish the package to npm:
 npm login
 ```
 
-2. Make sure the NPM_TOKEN secret is added to your GitHub repository.
+2. Make sure the `NPM_TOKEN` secret is added to your GitHub repository.
 
 3. Create a new version tag and push it to GitHub:
 
